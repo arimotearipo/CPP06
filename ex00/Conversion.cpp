@@ -334,7 +334,9 @@ bool doubleInRange(string const &arg)
 	// There are two possible errors that could occur in the try block
 	// First is the out_of_range error (for if the arg is out of range)
 	// Second is the invalid_argument (for if the arg is a char)
-	// The usage of (...) in the catch block means it's just going to catch whatever
+	// The usage of (...) in the catch block means it's just going to catch whatever exceptions thrown
+	// I do not need to do this for floatInRange() and intInRange() because I always call these functions
+	// in a flow from doubleInRange > floatInRange > intInRange
 	try
 	{
 		double value = stod(arg);
