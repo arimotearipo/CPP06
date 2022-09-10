@@ -11,7 +11,9 @@ int	main(int ac, char **av)
 		return (1);
 	}
 	Conversion con(av[1]);
-	con.showType();
+	// con.showType();
+	con.convertAll();
+	cout << con << endl;
 	// int t = av[1][0];
 	// cout << "isdigit " << isdigit(t) << endl;
 
