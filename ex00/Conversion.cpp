@@ -27,6 +27,8 @@ Conversion::Conversion(char const *argument) : arg(argument)
 	}
 	// Converting it into stringstream and converting it back to string to allow inputs
 	// where the 0 before the decimal is not entered. (example: ".3f" should be translated as 0.03f)
+	// I need to this because i need to string values to work with stof and stod. stof and stod doesn't
+	// allow arguments such as "-.3f"
 	if (this->type == TYPEFLOAT)
 	{
 		std::stringstream sstream;
@@ -195,7 +197,6 @@ string	&Conversion::getDoubleLiteral(void)
 {
 	return (this->doubleLiteral);
 }
-
 //getters end
 
 
@@ -321,7 +322,7 @@ bool floatInRange(string const &arg)
 	try
 	{
 		float value = stof(arg);
-		return (value >= std::numeric_limits<int>::min() && value <= std::numeric_limits<float>::max());
+		return (value >= (std::numeric_limits<float>::max() * -1) && value <= std::numeric_limits<float>::max());
 	}
 	catch (std::out_of_range)
 	{
@@ -336,11 +337,11 @@ bool doubleInRange(string const &arg)
 	// Second is the invalid_argument (for if the arg is a char)
 	// The usage of (...) in the catch block means it's just going to catch whatever exceptions thrown
 	// I do not need to do this for floatInRange() and intInRange() because I always call these functions
-	// in a flow from doubleInRange > floatInRange > intInRange
+	// in a flow from doubleInRange > floatInRange > intInRange by using the switch statement
 	try
 	{
 		double value = stod(arg);
-		return (value >= std::numeric_limits<int>::min() && value <= std::numeric_limits<double>::max());
+		return (value >= (std::numeric_limits<double>::max() * -1) && value <= std::numeric_limits<double>::max());
 	}
 	catch (...)
 	{
@@ -379,5 +380,6 @@ ostream	&operator<<(ostream &OS, Conversion &toprint)
 		OS << "double: " << toprint.getDoubleLiteral();
 	else
 		OS << "double: impossible";
+
 	return (OS);
 }
