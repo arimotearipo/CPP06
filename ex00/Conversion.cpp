@@ -15,7 +15,7 @@ Conversion::Conversion(void)
 
 Conversion::Conversion(char const *argument) : arg(argument)
 {
-	bool (*funcptr[5])(char const *argstr) = {&isChar, &isInt, &isFloat, &isDouble, &isPseudoLiterals};
+	bool (*funcptr[5])(char const *argstr) = {&isPseudoLiterals, &isChar, &isInt, &isFloat, &isDouble};
 	for (int i = 0; i < 5; i++)
 	{
 		if ((funcptr[i])(argument) == true)
@@ -25,22 +25,11 @@ Conversion::Conversion(char const *argument) : arg(argument)
 		}
 		this->type = TYPEINVALID;
 	}
-	// Converting it into stringstream and converting it back to string to allow inputs
-	// where the 0 before the decimal is not entered. (example: ".3f" should be translated as 0.03f)
-	// I need to this because i need to string values to work with stof and stod. stof and stod doesn't
-	// allow arguments such as "-.3f"
-	if (this->type == TYPEFLOAT)
-	{
-		std::stringstream sstream;
-		sstream << stof(this->arg);
-		this->arg = sstream.str();
-	}
-	else if (this->type == TYPEDOUBLE)
-	{
-		std::stringstream sstream;
-		sstream << stod(this->arg);
-		this->arg = sstream.str();
-	}
+	// To accept inputs like -.3f or .3 where it should be translated as -0.3f and 0.3 respectively
+	if (this->arg[0] == '.')
+		this->arg.replace(0, 1, "0.");
+	else if (this->arg[0] == '-' && this->arg[1] == '.')
+		this->arg.replace(0, 2, "-0.");
 	cout << BLU << "[CONVERSION CLASS CONSTRUCTED WITH ARGUMENT]" << RESET << endl;
 }
 
@@ -63,7 +52,7 @@ Conversion::~Conversion(void)
 
 void	Conversion::showType(void)
 {
-	string		types[6] = {"Invalid type", "Char type", "Int type", "Float type", "Double type", "Pseudo literal type"};
+	string		types[6] = {"Invalid type", "Pseudo literal type", "Char type", "Int type", "Float type", "Double type"};
 
 	cout << types[this->type] << endl;
 }
@@ -93,6 +82,7 @@ void	Conversion::convertNumeric(void)
 		else
 			break ;
 	}
+	cout << "save: " << save << endl;
 	switch (save)
 	{
 		case (3):
@@ -226,52 +216,77 @@ bool	isInt(char const *arg)
 	return (true);
 }
 
+// bool	isFloat(char const *arg)
+// {
+// 	string str(arg);
+// 	int		tocheck;
+// 	int		decimalcount = 0;
+
+// 	tocheck = arg[0];
+// 	if (tocheck != '-' && isdigit(tocheck) == 0)
+// 		return (false);
+// 	cout << "WHAT?\n";
+// 	for (int i = 1; i < str.length() - 1; i++)
+// 	{
+// 		tocheck = str[i];
+// 		if (str[i] == '.')
+// 		{
+// 			decimalcount++;
+// 			continue ;
+// 		}
+// 		if (isdigit(tocheck) == 0 || decimalcount > 1)
+// 			return (false);
+// 	}
+// 	if (str[str.length() - 1] != 'f')
+// 		return (false);
+// 	return (true);
+// }
+
+// bool	isDouble(char const *arg)
+// {
+// 	string str(arg);
+// 	int		tocheck;
+// 	int		decimalcount = 0;
+
+// 	tocheck = arg[0];
+// 	if (tocheck != '-' && isdigit(tocheck) == 0)
+// 		return (false);
+// 	for (int i = 1; i < str.length(); i++)
+// 	{
+// 		tocheck = str[i];
+// 		if (str[i] == '.')
+// 		{
+// 			decimalcount++;
+// 			continue ;
+// 		}
+// 		if (isdigit(tocheck) == 0 || decimalcount != 1)
+// 			return (false);
+// 	}
+// 	return (true);
+// }
+
 bool	isFloat(char const *arg)
 {
-	string str(arg);
-	int		tocheck;
-	int		decimalcount = 0;
-
-	tocheck = arg[0];
-	if (arg[0] != '-' && isdigit(tocheck) == 0)
-		return (false);
-	for (int i = 1; i < str.length() - 1; i++)
-	{
-		tocheck = str[i];
-		if (str[i] == '.')
-		{
-			decimalcount++;
-			continue ;
-		}
-		if (isdigit(tocheck) == 0 || decimalcount > 1)
-			return (false);
-	}
-	if (str[str.length() - 1] != 'f')
-		return (false);
-	return (true);
+	string	argstr(arg);
+	if (argstr[0] == '.')
+		argstr.replace(0, 1, "0.");
+	else if (argstr[0] == '-' && argstr[1] == '.')
+		argstr.replace(0, 2, "-0.");
+	char	*end = nullptr;
+	double	val = strtof(argstr.c_str(), &end);
+	return (end != argstr.c_str() && *end == 'f' && *(end + 1) == '\0' && val != HUGE_VAL);
 }
 
 bool	isDouble(char const *arg)
 {
-	string str(arg);
-	int		tocheck;
-	int		decimalcount = 0;
-
-	tocheck = arg[0];
-	if (arg[0] != '-' && isdigit(tocheck) == 0)
-		return (false);
-	for (int i = 1; i < str.length() - 1; i++)
-	{
-		tocheck = str[i];
-		if (str[i] == '.')
-		{
-			decimalcount++;
-			continue ;
-		}
-		if (isdigit(tocheck) == 0 || decimalcount > 1)
-			return (false);
-	}
-	return (true);
+	string	argstr(arg);
+	if (argstr[0] == '.')
+		argstr.replace(0, 1, "0.");
+	else if (argstr[0] == '-' && argstr[1] == '.')
+		argstr.replace(0, 2, "-0.");
+	char	*end = nullptr;
+	double	val = strtod(argstr.c_str(), &end);
+	return (end != argstr.c_str() && *end == '\0' && val != HUGE_VAL);
 }
 
 bool	isPseudoLiterals(char const *arg)

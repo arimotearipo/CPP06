@@ -8,14 +8,15 @@
 #include <string>
 #include <limits>
 #include <sstream>
+#include <cmath>
 #include "colours.h"
 
 #define TYPEINVALID	0
-#define TYPECHAR 	1
-#define TYPEINT		2
-#define TYPEFLOAT	3
-#define TYPEDOUBLE	4
-#define TYPEPSEUDO	5
+#define TYPEPSEUDO	1
+#define TYPECHAR 	2
+#define TYPEINT		3
+#define TYPEFLOAT	4
+#define TYPEDOUBLE	5
 
 using std::string;
 using std::ostream;
@@ -74,7 +75,7 @@ bool	isInt(char const *arg);
 bool	isFloat(char const *arg);
 bool	isDouble(char const *arg);
 bool	isPseudoLiterals(char const *arg);
-// bool	inRange(string const arg, int type);
+
 bool	charInRange(string const &arg);
 bool	intInRange(string const &arg);
 bool	floatInRange(string const &arg);
