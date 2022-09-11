@@ -161,8 +161,6 @@ void	Conversion::convertAll(void)
 	else
 		this->convertNumeric();
 	this->validify();
-	// void	(Conversion::*functPtr[4])(void) = {&Conversion::convertChar, &Conversion::convertInt, &Conversion::convertFloat, &Conversion::convertDouble};
-	// (this->*functPtr[this->type - 1])();
 	if (this->valueChar <= 32 || this->valueChar == 127)
 		this->charDisplayable = false;
 }
