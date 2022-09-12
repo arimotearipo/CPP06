@@ -11,7 +11,7 @@ Base	*generate(void)
 {
 
 	Base	*stuff;
-	srand(time(0));
+	srand(time(NULL));
 	int	randomnumber = rand() % 3;
 	if (randomnumber == 0)
 		stuff = new A;
@@ -46,21 +46,21 @@ void	identify(Base &obj)
 {
 	try
 	{
-		(void)dynamic_cast<A&>(obj);
+		dynamic_cast<A&>(obj);
 		cout << GRN << "Type A" << RESET << endl;
 	}
 	catch (std::bad_cast) {}
 
 	try
 	{
-		(void)dynamic_cast<B&>(obj);
+		dynamic_cast<B&>(obj);
 		cout << GRN << "Type B" << RESET << endl;
 	}
 	catch (std::bad_cast) {}
 
 	try
 	{
-		(void)dynamic_cast<C&>(obj);
+		dynamic_cast<C&>(obj);
 		cout << GRN << "Type C" << RESET << endl;
 	}
 	catch (std::bad_cast) {}
