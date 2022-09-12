@@ -1,2 +1,4 @@
 *.o
 convert
+serialize
+identify_type
