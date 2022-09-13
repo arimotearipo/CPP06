@@ -82,7 +82,6 @@ void	Conversion::convertNumeric(void)
 		else
 			break ;
 	}
-	cout << "save: " << save << endl;
 	switch (save)
 	{
 		case (3):

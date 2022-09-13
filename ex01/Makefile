@@ -1,6 +1,10 @@
-SRCS = serialize.cpp main.cpp
+MAIN = main.cpp
 
-OBJS = $(SRCS:.cpp=.o)
+SRCS = serialize.cpp
+
+OBJS = $(SRCS:.cpp=.o) main.o
+
+HEADERS = serialize.hpp
 
 CC = c++ -std=c++98
 
@@ -10,7 +14,7 @@ NAME = serialize
 
 all:		$(NAME)
 
-$(NAME):	$(OBJS)
+$(NAME):	$(OBJS) $(HEADERS)
 			$(CC) $(FLAGS) $(OBJS) -o $(NAME)
 
 clean:		

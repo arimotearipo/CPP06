@@ -1,6 +1,8 @@
-SRCS = Conversion.cpp main.cpp
+SRCS = Conversion.cpp
 
-OBJS = $(SRCS:.cpp=.o)
+OBJS = $(SRCS:.cpp=.o) main.o
+
+HEADERS = $(SRCS:.cpp=.hpp)
 
 CC = c++ -std=c++98
 
@@ -10,7 +12,7 @@ NAME = convert
 
 all:		$(NAME)
 
-$(NAME):	$(OBJS)
+$(NAME):	$(OBJS) $(HEADERS)
 			$(CC) $(FLAGS) $(OBJS) -o $(NAME)
 
 clean:	

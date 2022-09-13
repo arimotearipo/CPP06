@@ -65,7 +65,6 @@ class Conversion
 
 		string	floatLiteral;
 		string	doubleLiteral;
-
 };
 
 ostream	&operator<<(ostream &OS, Conversion &toprint);
