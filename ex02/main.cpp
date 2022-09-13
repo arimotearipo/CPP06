@@ -19,7 +19,7 @@ Base	*generate(void)
 		stuff = new B;
 	else
 		stuff = new C;
-	cout << BLU << "Random number generated: " << randomnumber << RESET << endl;
+	cout << BLU << "Random number generated: " << randomnumber << RESET << endl << endl;;
 	return (stuff);
 }
 
@@ -72,8 +72,13 @@ int	main(void)
 
 	srand(time(NULL));
 	test = generate();
+	cout << UWHT << "Identifying by passing reference as parameter..." << endl;
 	identify(test);
+	cout << endl;
+	cout << UWHT << "Identifying by passing pointer as parameter..." << endl;
 	identify(*test);
+	cout << endl;
+	cout << UWHT << "Deleting the Base object returned by generate()..." << endl;
 	delete test;
 	return (0);
 }

@@ -1,6 +1,10 @@
-SRCS = Base.cpp main.cpp
+MAIN = main.cpp
 
-OBJS = $(SRCS:.cpp=.o)
+SRCS = Base.cpp
+
+HEADERS = A.hpp B.hpp C.hpp Base.hpp
+
+OBJS = $(SRCS:.cpp=.o) main.o
 
 CC = c++ -std=c++98
 
@@ -10,7 +14,7 @@ NAME = identify_type
 
 all:		$(NAME)
 
-$(NAME):	$(OBJS)
+$(NAME):	$(OBJS) $(HEADERS)
 			$(CC) $(FLAGS) $(OBJS) -o $(NAME)
 
 clean:		
