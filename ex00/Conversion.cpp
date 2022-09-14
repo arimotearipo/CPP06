@@ -3,18 +3,28 @@
 using std::string;
 using std::cout;
 using std::endl;
-using std::stoi;
-using std::stof;
-using std::stod;
 
 Conversion::Conversion(void)
 {
+	charDisplayable = true;
+	charValid = false;
+	intValid = false;
+	floatValid = false;
+	doubleValid = false;
+	isPseudoLiteral = false;
 	this->type = TYPEINVALID;
 	cout << BLU << "[CONVERSION CLASS CONSTRUCTED]" << RESET << endl;
 }
 
 Conversion::Conversion(char const *argument) : arg(argument)
 {
+	charDisplayable = true;
+	charValid = false;
+	intValid = false;
+	floatValid = false;
+	doubleValid = false;
+	isPseudoLiteral = false;
+
 	bool (*funcptr[5])(char const *argstr) = {&isPseudoLiterals, &isChar, &isInt, &isFloat, &isDouble};
 	for (int i = 0; i < 5; i++)
 	{
@@ -35,7 +45,14 @@ Conversion::Conversion(char const *argument) : arg(argument)
 
 Conversion &Conversion::operator=(Conversion const &toassign)
 {
+	charDisplayable = true;
+	charValid = false;
+	intValid = false;
+	floatValid = false;
+	doubleValid = false;
+	isPseudoLiteral = false;
 	cout << BLU << "[CONVERSION CLASS CONSTRUCTED BY ASSIGNMENT]" << RESET << endl;
+	*this = toassign;
 	return (*this);
 }
 
@@ -85,13 +102,13 @@ void	Conversion::convertNumeric(void)
 	switch (save)
 	{
 		case (3):
-			this->valueChar = static_cast<char>(stoi(this->arg));
+			this->valueChar = static_cast<char>(atoi(this->arg.c_str()));
 		case (2):
-			this->valueInt = static_cast<int>(stoi(this->arg));
+			this->valueInt = static_cast<int>(atoi(this->arg.c_str()));
 		case (1):
-			this->valueFloat = static_cast<float>(stof(this->arg));
+			this->valueFloat = static_cast<float>(atof(this->arg.c_str()));
 		case (0):
-			this->valueDouble = static_cast<double>(stod(this->arg));
+			this->valueDouble = static_cast<double>(atof(this->arg.c_str()));
 	}
 }
 
@@ -193,7 +210,7 @@ bool	isChar(char const *arg)
 
 	if (str.length() > 1)
 		return (false);
-	if (arg[0] <= 32 && arg[0] >= 127 || isdigit(arg[0]) == 1)
+	if ((arg[0] <= 32 && arg[0] >= 127) || isdigit(arg[0]) == 1)
 		return (false);
 	return (true);
 }
@@ -206,7 +223,8 @@ bool	isInt(char const *arg)
 	tocheck = arg[0];
 	if (arg[0] != '-' && isdigit(tocheck) == 0)
 		return (false);
-	for (int i = 1; i < str.length(); i++)
+	int len = str.length();
+	for (int i = 1; i < len; i++)
 	{
 		tocheck = str[i];
 		if (isdigit(tocheck) == 0)
@@ -271,7 +289,7 @@ bool	isFloat(char const *arg)
 		argstr.replace(0, 1, "0.");
 	else if (argstr[0] == '-' && argstr[1] == '.')
 		argstr.replace(0, 2, "-0.");
-	char	*end = nullptr;
+	char	*end = NULL;
 	double	val = strtof(argstr.c_str(), &end);
 	return (end != argstr.c_str() && *end == 'f' && *(end + 1) == '\0' && val != HUGE_VAL);
 }
@@ -283,7 +301,7 @@ bool	isDouble(char const *arg)
 		argstr.replace(0, 1, "0.");
 	else if (argstr[0] == '-' && argstr[1] == '.')
 		argstr.replace(0, 2, "-0.");
-	char	*end = nullptr;
+	char	*end = NULL;
 	double	val = strtod(argstr.c_str(), &end);
 	return (end != argstr.c_str() && *end == '\0' && val != HUGE_VAL);
 }
@@ -306,13 +324,12 @@ bool	charInRange(string const &arg)
 {
 	try
 	{
-		int value = static_cast<int>(stoi(arg));
+		int value = static_cast<int>(atoi(arg.c_str()));
 		return (value >= 0 && value <= 127);
 	}
-	catch (std::invalid_argument)
+	catch (std::invalid_argument const &)
 	{
-		char value = arg[0];
-		return (value >= 0 && value <= 127);
+		return (true);
 	}
 }
 
@@ -320,10 +337,10 @@ bool	intInRange(string const &arg)
 {
 	try
 	{
-		int value = static_cast<int>(stoi(arg));
+		int value = static_cast<int>(atoi(arg.c_str()));
 		return (value >= std::numeric_limits<int>::min() && value <= std::numeric_limits<int>::max());
 	}
-	catch (std::out_of_range)
+	catch (std::out_of_range const &)
 	{
 		return (false);
 	}
@@ -333,10 +350,10 @@ bool floatInRange(string const &arg)
 {
 	try
 	{
-		float value = stof(arg);
+		float value = atof(arg.c_str());
 		return (value >= (std::numeric_limits<float>::max() * -1) && value <= std::numeric_limits<float>::max());
 	}
-	catch (std::out_of_range)
+	catch (std::out_of_range const &)
 	{
 		return (false);
 	}
@@ -352,7 +369,7 @@ bool doubleInRange(string const &arg)
 	// in a flow from doubleInRange > floatInRange > intInRange by using the switch statement
 	try
 	{
-		double value = stod(arg);
+		double value = static_cast<double>(atof(arg.c_str()));
 		return (value >= (std::numeric_limits<double>::max() * -1) && value <= std::numeric_limits<double>::max());
 	}
 	catch (...)

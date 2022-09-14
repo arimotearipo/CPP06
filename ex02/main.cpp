@@ -49,21 +49,21 @@ void	identify(Base &obj)
 		dynamic_cast<A&>(obj);
 		cout << GRN << "Type A" << RESET << endl;
 	}
-	catch (std::bad_cast) {}
+	catch (...) {}
 
 	try
 	{
 		dynamic_cast<B&>(obj);
 		cout << GRN << "Type B" << RESET << endl;
 	}
-	catch (std::bad_cast) {}
+	catch (...) {}
 
 	try
 	{
 		dynamic_cast<C&>(obj);
 		cout << GRN << "Type C" << RESET << endl;
 	}
-	catch (std::bad_cast) {}
+	catch (...) {}
 }
 
 int	main(void)

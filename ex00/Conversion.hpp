@@ -48,12 +48,12 @@ class Conversion
 		string	&getDoubleLiteral(void);
 		//getters end
 
-		bool	charDisplayable = true;
-		bool	charValid = false;
-		bool	intValid = false;
-		bool	floatValid = false;
-		bool	doubleValid = false;
-		bool	isPseudoLiteral = false;
+		bool	charDisplayable;
+		bool	charValid;
+		bool	intValid;
+		bool	floatValid;
+		bool	doubleValid;
+		bool	isPseudoLiteral;
 
 	private:
 		string	arg;

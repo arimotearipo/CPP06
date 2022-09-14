@@ -4,7 +4,7 @@ using std::cout;
 using std::endl;
 using std::ostream;
 
-Data::Data(void)
+Data::Data(void) : _name(""), _sides(0), _vertices(0)
 {
 	cout << BBLU "[DATA CLASS CONSTRUCTED]" << RESET << endl;
 }

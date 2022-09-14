@@ -17,6 +17,9 @@ all:		$(NAME)
 $(NAME):	$(OBJS) $(HEADERS)
 			$(CC) $(FLAGS) $(OBJS) -o $(NAME)
 
+$(OBJS):	$(MAIN) $(SRCS)
+			$(CC) $(FLAGS) $(MAIN) $(SRCS) -c
+
 clean:		
 			rm -rf $(OBJS)
 

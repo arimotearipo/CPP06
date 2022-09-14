@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <ostream>
+#include <stdint.h>
 #include "colours.h"
 
 using std::string;
@@ -20,13 +21,13 @@ class	Data
 		//getters
 		int				getSides(void) const;
 		int				getVertices(void) const;
-		const string	&getName(void) const;
+		string const	&getName(void) const;
 		//getters end
 
 	private:
+		string	_name;
 		int		_sides;
 		int		_vertices;
-		string	_name;
 };
 
 ostream	&operator<<(ostream &OS, Data const &DATA);
