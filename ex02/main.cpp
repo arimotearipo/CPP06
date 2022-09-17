@@ -46,21 +46,21 @@ void	identify(Base &obj)
 {
 	try
 	{
-		dynamic_cast<A&>(obj);
+		(void)dynamic_cast<A&>(obj); // the void at the beginning is just to get pass the W flags
 		cout << GRN << "Type A" << RESET << endl;
 	}
 	catch (...) {}
 
 	try
 	{
-		dynamic_cast<B&>(obj);
+		(void)dynamic_cast<B&>(obj);
 		cout << GRN << "Type B" << RESET << endl;
 	}
 	catch (...) {}
 
 	try
 	{
-		dynamic_cast<C&>(obj);
+		(void)dynamic_cast<C&>(obj);
 		cout << GRN << "Type C" << RESET << endl;
 	}
 	catch (...) {}

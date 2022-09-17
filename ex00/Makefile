@@ -8,7 +8,7 @@ HEADERS = $(SRCS:.cpp=.hpp)
 
 CC = c++ -std=c++98
 
-FLAGS = -Wall -Wextra -Werror -Wimplicit-fallthrough=0
+FLAGS = -Wall -Wextra -Werror
 
 NAME = convert
 

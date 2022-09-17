@@ -14,20 +14,15 @@ Data::Data(string name, int sides, int vertices) : _name(name), _sides(sides), _
 	cout << BBLU "[DATA CLASS CONSTRUCTED WITH PARAMETERS" << RESET << endl;;
 }
 
-Data::Data(Data const &tocopy)
+Data::Data(Data const &tocopy) : _name(tocopy.getName()), _sides(tocopy.getSides()), _vertices(tocopy.getVertices())
 {
-	this->_sides = tocopy.getSides();
-	this->_vertices = tocopy.getVertices();
-	this->_name = tocopy.getName();
 	cout << BBLU "[DATA CLASS CONSTRUCTED BY COPY" << RESET << endl;;
 }
 
 Data	&Data::operator=(Data const &toassign)
 {
-	*this = toassign;
-	this->_sides = toassign.getSides();
-	this->_vertices = toassign.getVertices();
-	this->_name = toassign.getName();
+	if (this != &toassign)
+		*this = toassign;
 	return (*this);
 }
 

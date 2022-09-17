@@ -45,14 +45,9 @@ Conversion::Conversion(char const *argument) : arg(argument)
 
 Conversion &Conversion::operator=(Conversion const &toassign)
 {
-	charDisplayable = true;
-	charValid = false;
-	intValid = false;
-	floatValid = false;
-	doubleValid = false;
-	isPseudoLiteral = false;
+	if (this != &toassign)
+		*this = toassign;
 	cout << BLU << "[CONVERSION CLASS CONSTRUCTED BY ASSIGNMENT]" << RESET << endl;
-	*this = toassign;
 	return (*this);
 }
 
@@ -210,7 +205,7 @@ bool	isChar(char const *arg)
 
 	if (str.length() > 1)
 		return (false);
-	if ((arg[0] <= 32 && arg[0] >= 127) || isdigit(arg[0]) == 1)
+	if ((arg[0] <= 32 || arg[0] >= 127) || isdigit(arg[0]) == 1)
 		return (false);
 	return (true);
 }

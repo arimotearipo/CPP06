@@ -1,5 +1,6 @@
 *.o
 .vscode
+.DS_Store
 convert
 serialize
 identify_type
