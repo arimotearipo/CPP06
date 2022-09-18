@@ -324,7 +324,7 @@ bool	charInRange(string const &arg)
 	}
 	catch (std::invalid_argument const &)
 	{
-		return (true);
+		return (false);
 	}
 }
 
