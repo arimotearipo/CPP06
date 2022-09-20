@@ -346,7 +346,7 @@ bool floatInRange(string const &arg)
 {
 	try
 	{
-		float value = atof(arg.c_str()); // the atof function will allow conversion to the largest value allowable by double
+		double value = static_cast<double>(strtod(arg.c_str(), NULL)); // the atof function will allow conversion to the largest value allowable by double
 		return (value >= (std::numeric_limits<float>::max() * -1) && value <= std::numeric_limits<float>::max());
 	}
 	catch (std::out_of_range const &)
@@ -365,7 +365,7 @@ bool doubleInRange(string const &arg)
 	// in a flow from doubleInRange > floatInRange > intInRange by using the switch statement
 	try
 	{
-		double value = static_cast<double>(atof(arg.c_str()));
+		double value = static_cast<double>(strtod(arg.c_str(), NULL));
 		return (value >= (std::numeric_limits<double>::max() * -1) && value <= std::numeric_limits<double>::max());
 	}
 	catch (...)

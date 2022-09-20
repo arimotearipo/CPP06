@@ -8,7 +8,7 @@ HEADERS = serialize.hpp
 
 CC = c++ -std=c++98
 
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -fsanitize=address
 
 NAME = serialize
 

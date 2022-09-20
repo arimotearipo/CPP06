@@ -8,7 +8,7 @@ OBJS = $(SRCS:.cpp=.o) main.o
 
 CC = c++ -std=c++98
 
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -fsanitize=address
 
 NAME = identify_type
 
